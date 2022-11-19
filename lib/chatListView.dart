@@ -21,6 +21,7 @@ class _ChatListViewState extends State<ChatListView> {
       "https://m.media-amazon.com/images/I/51URKHWYfnL._AC_UF894,1000_QL80_.jpg",
     ], MediaQuery.of(context).size.width / 2,
         MediaQuery.of(context).size.height / 4));
+    childList.add(AnswerField("My answer:"));
 
     return ListView(
       shrinkWrap: true,
@@ -35,7 +36,9 @@ class _ChatListViewState extends State<ChatListView> {
 }
 
 class AnswerField extends StatefulWidget {
-  const AnswerField({super.key});
+  String helperText;
+
+  AnswerField(this.helperText, {super.key});
 
   @override
   State<AnswerField> createState() => _AnswerFieldState();
@@ -44,7 +47,46 @@ class AnswerField extends StatefulWidget {
 class _AnswerFieldState extends State<AnswerField> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 236, 240, 241),
+                width: MediaQuery.of(context).size.width / 350,
+              ),
+              borderRadius:
+                  BorderRadius.circular(MediaQuery.of(context).size.width / 70),
+              color: Colors.transparent),
+          child: ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(MediaQuery.of(context).size.width / 40),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width / 2.3,
+                height: MediaQuery.of(context).size.height / 3,
+                child: Material(
+                  color: Colors.transparent,
+                  child: TextField(
+                    maxLines: 5,
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 236, 240, 241),
+                        fontFamily: "Lato",
+                        decoration: TextDecoration.none,
+                        fontSize: MediaQuery.of(context).size.width / 30),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: widget.helperText,
+                        hintStyle: TextStyle(
+                            color: const Color.fromARGB(255, 236, 240, 241),
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: MediaQuery.of(context).size.width / 30),
+                        filled: true,
+                        fillColor: Colors.transparent),
+                  ),
+                ),
+              )),
+        ));
   }
 }
 
@@ -183,12 +225,12 @@ class _MovieSelectorState extends State<MovieSelector> {
                     width: MediaQuery.of(context).size.width / 350,
                   ),
                   borderRadius: BorderRadius.circular(
-                    MediaQuery.of(context).size.width / 70),
+                      MediaQuery.of(context).size.width / 70),
                   color: Colors.transparent),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width / 40),
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width / 5,
                     height: MediaQuery.of(context).size.height / 10,
                     child: MaterialButton(
@@ -196,7 +238,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                       child: Text(
                         "Submit",
                         style: TextStyle(
-                            color: Colors.blue,
+                            color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
                             fontSize: MediaQuery.of(context).size.width / 30),
