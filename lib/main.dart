@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:watchat_ui/controller/reqController.dart';
 import 'package:watchat_ui/mainpage.dart';
 import 'package:watchat_ui/resultGallery.dart';
 
@@ -13,11 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Watchat',
-      theme: ThemeData(
-        fontFamily: "Lato",
-      ),
-      home: MainPage()
-    );
+        title: 'Watchat',
+        theme: ThemeData(
+          fontFamily: "Lato",
+        ),
+        home: MaterialButton(onPressed: () {
+          ReqController.postResponse();
+        }));
   }
 }
