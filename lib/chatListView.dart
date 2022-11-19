@@ -44,6 +44,7 @@ class _ChatListViewState extends State<ChatListView>
 
     return ListView(
       shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.fromLTRB(
           MediaQuery.of(context).size.width / 17,
           MediaQuery.of(context).size.height / 10,
@@ -70,8 +71,14 @@ class _ChatListViewState extends State<ChatListView>
   void getTextResponse(String t) async {
     TextReqResponse response = await ReqController.postResponse(text: t);
     widget.userVector = response.resVector;
-    print(response.question);
-    addChat([QuestionText(response.question), AnswerField("...", (p0) {})]);
+    addChat([
+      QuestionText(response.question),
+      AnswerField("...", getTextResponse),
+      MovieSelector(
+          response.movieList,
+          MediaQuery.of(context).size.width / 3 * 2,
+          MediaQuery.of(context).size.height / 2)
+    ]);
   }
 }
 
@@ -213,10 +220,10 @@ class _MovieSelectorState extends State<MovieSelector> {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return MovieDetailView(
-                    widget.movieList[i].imgPath!,
-                    widget.movieList[i].title!,
-                    widget.movieList[i].description!,
-                    widget.movieList[i].redirectPath!,
+                    widget.movieList[i].imgPath,
+                    widget.movieList[i].title,
+                    widget.movieList[i].description,
+                    widget.movieList[i].redirectPath,
                     "poster$i");
               },
             ));
