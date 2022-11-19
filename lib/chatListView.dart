@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:watchat_ui/common/textReqResponse.dart';
 import 'package:watchat_ui/common/userVector.dart';
 import 'package:watchat_ui/controller/reqController.dart';
+import 'package:watchat_ui/design/fontSizes.dart';
 import 'package:watchat_ui/movieDetailView.dart';
 
 import 'common/movie.dart';
@@ -124,7 +125,7 @@ class _AnswerFieldState extends State<AnswerField> {
                         color: const Color.fromARGB(255, 236, 240, 241),
                         fontFamily: "Lato",
                         decoration: TextDecoration.none,
-                        fontSize: MediaQuery.of(context).size.width / 30),
+                        fontSize: FontSizes.extraExtraSmall(context)),
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: widget.helperText,
@@ -132,7 +133,7 @@ class _AnswerFieldState extends State<AnswerField> {
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
-                            fontSize: MediaQuery.of(context).size.width / 30),
+                            fontSize: FontSizes.extraExtraSmall(context)),
                         filled: true,
                         fillColor: Colors.transparent),
                   ),

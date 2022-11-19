@@ -16,6 +16,13 @@ class Movie {
     mapj.forEach((key, value) {
       if (value == null) {
         mapj[key] = "Unknown";
+        if (key == "image") {
+          mapj[key] =
+              "https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png";
+        }
+        if (key == "redirect") {
+          mapj[key] = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        }
       }
     });
     return Movie(mapj["id"], mapj["name"], mapj["description"], mapj["image"],

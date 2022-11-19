@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:js' as js;
 
 class MovieDetailView extends StatefulWidget {
   String imgPath;
@@ -10,8 +11,6 @@ class MovieDetailView extends StatefulWidget {
   MovieDetailView(
       this.imgPath, this.title, this.description, this.redirectPath, this.tag,
       {super.key});
-
-  
 
   @override
   State<MovieDetailView> createState() => _MovieDetailViewState();
@@ -65,6 +64,41 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                 decoration: TextDecoration.none,
                                 fontSize:
                                     MediaQuery.of(context).size.width / 40),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0,
+                                MediaQuery.of(context).size.height / 10, 0, 0),
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 40),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 236, 240, 241),
+                                    width: MediaQuery.of(context).size.width /
+                                        400),
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.width / 40)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.width / 40),
+                              child: MaterialButton(
+                                onPressed: () {
+                                  js.context.callMethod(
+                                      'open', [widget.redirectPath]);
+                                },
+                                child: Text(
+                                  "Get me there!",
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 236, 240, 241),
+                                      fontFamily: "Lato",
+                                      decoration: TextDecoration.none,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              40),
+                                ),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -112,7 +146,37 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                         decoration: TextDecoration.none,
                         fontSize: MediaQuery.of(context).size.width / 40),
                   ),
-                )
+                ),
+                Center(
+                    child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.height / 10, 0, 0),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height / 40),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 236, 240, 241),
+                          width: MediaQuery.of(context).size.width / 400),
+                      borderRadius: BorderRadius.circular(
+                          MediaQuery.of(context).size.width / 40)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 40),
+                    child: MaterialButton(
+                      onPressed: () {
+                        js.context.callMethod('open', [widget.redirectPath]);
+                      },
+                      child: Text(
+                        "Get me there!",
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 236, 240, 241),
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: MediaQuery.of(context).size.width / 40),
+                      ),
+                    ),
+                  ),
+                ))
               ],
             ),
           );
