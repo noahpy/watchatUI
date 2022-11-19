@@ -175,30 +175,35 @@ class _MovieSelectorState extends State<MovieSelector> {
           ),
         ),
         Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color.fromARGB(255, 236, 240, 241), width: MediaQuery.of(context).size.width / 200,),
-              color: Colors.transparent
-            ),
-            child: ClipRRect(
-            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width/40),
-              child: Container(
-            width: MediaQuery.of(context).size.width / 5,
-            height: MediaQuery.of(context).size.height / 10,
-            child: MaterialButton(
-              onPressed: () {},
-              child: Text(
-                "Submit",
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontFamily: "Lato",
-                    decoration: TextDecoration.none,
-                    fontSize: MediaQuery.of(context).size.width / 30),
-              ),
-            ),
-          )),,)
-        )
+            alignment: Alignment.centerLeft,
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 236, 240, 241),
+                    width: MediaQuery.of(context).size.width / 350,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                    MediaQuery.of(context).size.width / 70),
+                  color: Colors.transparent),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width / 40),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 5,
+                    height: MediaQuery.of(context).size.height / 10,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: MediaQuery.of(context).size.width / 30),
+                      ),
+                    ),
+                  )),
+            ))
       ],
     );
   }
