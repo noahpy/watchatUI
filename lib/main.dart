@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watchat_ui/mainpage.dart';
+import 'package:watchat_ui/resultGallery.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Lato",
       ),
-      home: const MainPage(),
+      home: MainPage()
     );
   }
 }
-

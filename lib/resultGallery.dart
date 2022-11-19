@@ -22,18 +22,21 @@ class _ResultGalleryState extends State<ResultGallery> {
     int amountWidth = MediaQuery.of(context).size.width ~/ 200;
     List<Widget> widgetsList = [];
     List<Widget> rowList = [];
+    amountWidth = min((l - 1) ~/ 2, amountWidth);
 
     for (int i = 0; i < l; i++) {
       rowList.add(Column(
         children: [
           Expanded(
-            child: ClipRRect(
+            child: Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height/30),
+                child: ClipRRect(
               borderRadius:
                   BorderRadius.circular(MediaQuery.of(context).size.width / 70),
               child: Image.network(
                 widget.imgPathList[i],
               ),
-            ),
+            )),
           ),
           Text(
             widget.titleList[i],
@@ -41,17 +44,23 @@ class _ResultGalleryState extends State<ResultGallery> {
                 color: const Color.fromARGB(255, 236, 240, 241),
                 fontFamily: "Lato",
                 decoration: TextDecoration.none,
-                fontSize: MediaQuery.of(context).size.width / 30),
+                fontSize: MediaQuery.of(context).size.width / 50),
           )
         ],
       ));
       if (i % amountWidth == amountWidth - 1 || i == l - 1) {
-        widgetsList.add(LimitedBox(
-          maxHeight: MediaQuery.of(context).size.height / 3,
-          child: Row(
-            children: rowList,
+        widgetsList.add(Container(
+          padding: EdgeInsets.fromLTRB(
+              0, 0, 0, MediaQuery.of(context).size.height / 12),
+          child: LimitedBox(
+            maxHeight: MediaQuery.of(context).size.height / 3,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: rowList,
+            ),
           ),
         ));
+        rowList = [];
       }
     }
     return Stack(

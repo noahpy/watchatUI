@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:watchat_ui/movieDetailView.dart';
 
 class ChatListView extends StatefulWidget {
   const ChatListView({super.key});
@@ -11,17 +12,19 @@ class ChatListView extends StatefulWidget {
 }
 
 class _ChatListViewState extends State<ChatListView> {
+  List<Widget> childList = [];
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> childList = [];
+    childList = [];
 
-    childList.add(QuestionText("Hey, willkommen!"));
-    childList.add(MovieSelector(const [
+    addChat(QuestionText("Hey, willkommen!"));
+    addChat(MovieSelector(const [
       "https://m.media-amazon.com/images/I/61gtGlalRvL._AC_SY679_.jpg",
       "https://m.media-amazon.com/images/I/51URKHWYfnL._AC_UF894,1000_QL80_.jpg",
     ], MediaQuery.of(context).size.width / 2,
         MediaQuery.of(context).size.height / 4));
-    childList.add(AnswerField("My answer:"));
+    addChat(AnswerField("I want to watch..."));
 
     return ListView(
       shrinkWrap: true,
@@ -32,6 +35,14 @@ class _ChatListViewState extends State<ChatListView> {
           0),
       children: childList,
     );
+  }
+
+  void addChat(Widget widget) {
+    childList.add(Container(
+      padding:
+          EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height / 20),
+      child: widget,
+    ));
   }
 }
 
@@ -158,26 +169,38 @@ class _MovieSelectorState extends State<MovieSelector> {
       rowList.add(Container(
         margin: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width / 20, 0, 0, 0),
-        child: MaterialButton(
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () {
+        child: GestureDetector(
+          onTap: () {
             setState(() {
               selectedList[i] = !selectedList[i];
             });
+          },
+          onDoubleTap: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return MovieDetailView(
+                    widget.imagePathList[i],
+                    "Title",
+                    "This is a demo Desciption",
+                    widget.imagePathList[i],
+                    "poster$i");
+              },
+            ));
           },
           child: Container(
             decoration: BoxDecoration(
                 border: Border.all(
                     width: MediaQuery.of(context).size.width / 300,
-                    color: selectedList[i] ? Colors.green : Colors.transparent),
+                    color: selectedList[i]
+                        ? Color.fromARGB(255, 25, 157, 30)
+                        : Colors.transparent),
                 borderRadius: BorderRadius.circular(
                     MediaQuery.of(context).size.width / 70)),
             child: LimitedBox(
               maxHeight: widget.maxHeight,
               child: Expanded(
+                  child: Hero(
+                tag: "poster$i",
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width / 70),
@@ -185,7 +208,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                     widget.imagePathList[i],
                   ),
                 ),
-              ),
+              )),
             ),
           ),
         ),
@@ -231,12 +254,11 @@ class _MovieSelectorState extends State<MovieSelector> {
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width / 40),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 5,
                     height: MediaQuery.of(context).size.height / 10,
                     child: MaterialButton(
                       onPressed: () {},
                       child: Text(
-                        "Submit",
+                        "More of these!",
                         style: TextStyle(
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
