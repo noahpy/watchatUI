@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
       title: 'Watchat',
       theme: ThemeData(
         fontFamily: "Lato",
-        primarySwatch: Colors.blue,
       ),
       home: const MainPage(),
     );
