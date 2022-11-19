@@ -23,10 +23,8 @@ class _MainPageState extends State<MainPage> {
               alignment: Alignment.centerLeft,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Image.asset("assets/images/logo.jpg"),
-                ),
+                child: 
+                  Image.asset("assets/images/logo.jpg"),
               ),
             ),
           ),

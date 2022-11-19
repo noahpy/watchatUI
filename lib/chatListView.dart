@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 import 'dart:math';
 
@@ -11,20 +12,20 @@ class ChatListView extends StatefulWidget {
   State<ChatListView> createState() => _ChatListViewState();
 }
 
-class _ChatListViewState extends State<ChatListView> {
+class _ChatListViewState extends State<ChatListView>
+    with SingleTickerProviderStateMixin {
   List<Widget> childList = [];
+  bool greet = false;
 
   @override
   Widget build(BuildContext context) {
-    childList = [];
-
-    addChat(QuestionText("Hey, willkommen!"));
-    addChat(MovieSelector(const [
-      "https://m.media-amazon.com/images/I/61gtGlalRvL._AC_SY679_.jpg",
-      "https://m.media-amazon.com/images/I/51URKHWYfnL._AC_UF894,1000_QL80_.jpg",
-    ], MediaQuery.of(context).size.width / 2,
-        MediaQuery.of(context).size.height / 4));
-    addChat(AnswerField("I want to watch..."));
+    if (!greet) {
+      addChat([
+        QuestionText("Hey, welcome!"),
+        AnswerField("")
+      ]);
+      greet = true;
+    }
 
     return ListView(
       shrinkWrap: true,
@@ -37,12 +38,14 @@ class _ChatListViewState extends State<ChatListView> {
     );
   }
 
-  void addChat(Widget widget) {
-    childList.add(Container(
-      padding:
-          EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height / 20),
-      child: widget,
-    ));
+  void addChat(List<Widget> widgets) {
+    for (Widget widget in widgets) {
+      childList.add(Container(
+        padding: EdgeInsets.fromLTRB(
+            0, 0, 0, MediaQuery.of(context).size.height / 20),
+        child: widget,
+      ));
+    }
   }
 }
 
@@ -79,6 +82,7 @@ class _AnswerFieldState extends State<AnswerField> {
                   color: Colors.transparent,
                   child: TextField(
                     maxLines: 5,
+                    keyboardType: TextInputType.text,
                     style: TextStyle(
                         color: const Color.fromARGB(255, 236, 240, 241),
                         fontFamily: "Lato",
