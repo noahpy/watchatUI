@@ -10,6 +10,6 @@ class TextReqResponse {
 
   factory TextReqResponse.error() {
     return TextReqResponse(
-        [], "A unexpected error occured...", UserVector([], []));
+        [], "An unexpected error occured...", UserVector([], []));
   }
 }

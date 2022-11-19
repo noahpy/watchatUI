@@ -3,10 +3,22 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:watchat_ui/common/textReqResponse.dart';
+import 'package:watchat_ui/common/userVector.dart';
+import 'package:watchat_ui/controller/reqController.dart';
 import 'package:watchat_ui/movieDetailView.dart';
 
+import 'common/movie.dart';
+
 class ChatListView extends StatefulWidget {
-  const ChatListView({super.key});
+  UserVector userVector = UserVector([], []);
+  List<String> firstQuestions = [
+    "What kind of movie would you like to watch?",
+    "How are you feeling today?",
+    "What is your current vibe?"
+  ];
+
+  ChatListView({super.key});
 
   @override
   State<ChatListView> createState() => _ChatListViewState();
@@ -16,13 +28,16 @@ class _ChatListViewState extends State<ChatListView>
     with SingleTickerProviderStateMixin {
   List<Widget> childList = [];
   bool greet = false;
+  Random random = Random();
 
   @override
   Widget build(BuildContext context) {
     if (!greet) {
       addChat([
         QuestionText("Hey, welcome!"),
-        AnswerField("")
+        QuestionText(widget
+            .firstQuestions[random.nextInt(widget.firstQuestions.length - 1)]),
+        AnswerField("...", getTextResponse),
       ]);
       greet = true;
     }
@@ -39,20 +54,32 @@ class _ChatListViewState extends State<ChatListView>
   }
 
   void addChat(List<Widget> widgets) {
+    List<Widget> tmp = List.of(childList);
     for (Widget widget in widgets) {
-      childList.add(Container(
+      tmp.add(Container(
         padding: EdgeInsets.fromLTRB(
             0, 0, 0, MediaQuery.of(context).size.height / 20),
         child: widget,
       ));
+      setState(() {
+        childList = tmp;
+      });
     }
+  }
+
+  void getTextResponse(String t) async {
+    TextReqResponse response = await ReqController.postResponse(text: t);
+    widget.userVector = response.resVector;
+    print(response.question);
+    addChat([QuestionText(response.question), AnswerField("...", (p0) {})]);
   }
 }
 
 class AnswerField extends StatefulWidget {
   String helperText;
+  final void Function(String) f;
 
-  AnswerField(this.helperText, {super.key});
+  AnswerField(this.helperText, this.f, {super.key});
 
   @override
   State<AnswerField> createState() => _AnswerFieldState();
@@ -81,6 +108,9 @@ class _AnswerFieldState extends State<AnswerField> {
                 child: Material(
                   color: Colors.transparent,
                   child: TextField(
+                    onSubmitted: (t) {
+                      widget.f(t);
+                    },
                     maxLines: 5,
                     keyboardType: TextInputType.text,
                     style: TextStyle(
@@ -134,9 +164,9 @@ class _QuestionTextState extends State<QuestionText> {
 
 class MovieSelector extends StatefulWidget {
   double maxWidth, maxHeight;
-  List<String> imagePathList;
+  List<Movie> movieList;
 
-  MovieSelector(this.imagePathList, this.maxWidth, this.maxHeight, {super.key});
+  MovieSelector(this.movieList, this.maxWidth, this.maxHeight, {super.key});
 
   @override
   State<MovieSelector> createState() => _MovieSelectorState();
@@ -158,15 +188,15 @@ class _MovieSelectorState extends State<MovieSelector> {
     List<Widget> widgetList = [];
     List<Widget> rowList = [];
 
-    if (widget.imagePathList.length > 3 &&
-        widget.imagePathList.length % 2 != 0 &&
-        widget.imagePathList.length % 3 != 0) {
-      maxImages = widget.imagePathList.length - 1;
+    if (widget.movieList.length > 3 &&
+        widget.movieList.length % 2 != 0 &&
+        widget.movieList.length % 3 != 0) {
+      maxImages = widget.movieList.length - 1;
     }
-    if (widget.imagePathList.length % 3 == 0) {
+    if (widget.movieList.length % 3 == 0) {
       imagePerRow = 3;
     }
-    for (int i = 0; i < min(widget.imagePathList.length, maxImages); i++) {
+    for (int i = 0; i < min(widget.movieList.length, maxImages); i++) {
       if (!loaded) {
         selectedList.add(false);
       }
@@ -183,10 +213,10 @@ class _MovieSelectorState extends State<MovieSelector> {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return MovieDetailView(
-                    widget.imagePathList[i],
-                    "Title",
-                    "This is a demo Desciption",
-                    widget.imagePathList[i],
+                    widget.movieList[i].imgPath!,
+                    widget.movieList[i].title!,
+                    widget.movieList[i].description!,
+                    widget.movieList[i].redirectPath!,
                     "poster$i");
               },
             ));
@@ -209,7 +239,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width / 70),
                   child: Image.network(
-                    widget.imagePathList[i],
+                    widget.movieList[i].imgPath!,
                   ),
                 ),
               )),
@@ -219,7 +249,7 @@ class _MovieSelectorState extends State<MovieSelector> {
       ));
 
       if (i % imagePerRow == imagePerRow - 1 ||
-          i == min(widget.imagePathList.length, maxImages) - 1) {
+          i == min(widget.movieList.length, maxImages) - 1) {
         widgetList.add(LimitedBox(
           maxWidth: widget.maxWidth,
           child: Row(

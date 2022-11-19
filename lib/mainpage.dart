@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import "package:flutter/material.dart";
@@ -11,6 +12,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,8 +25,7 @@ class _MainPageState extends State<MainPage> {
               alignment: Alignment.centerLeft,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: 
-                  Image.asset("assets/images/logo.jpg"),
+                child: Image.asset("assets/images/logo.jpg"),
               ),
             ),
           ),
@@ -39,7 +40,7 @@ class _MainPageState extends State<MainPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const ChatListView()
+                ChatListView()
               ],
             ))
       ],

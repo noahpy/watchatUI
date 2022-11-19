@@ -18,8 +18,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: "Lato",
         ),
-        home: MaterialButton(onPressed: () {
-          ReqController.postResponse();
-        }));
+        home: MainPage());
   }
 }

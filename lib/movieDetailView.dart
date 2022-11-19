@@ -11,6 +11,8 @@ class MovieDetailView extends StatefulWidget {
       this.imgPath, this.title, this.description, this.redirectPath, this.tag,
       {super.key});
 
+  
+
   @override
   State<MovieDetailView> createState() => _MovieDetailViewState();
 }

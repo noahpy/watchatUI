@@ -24,15 +24,20 @@ class ReqController {
       return TextReqResponse.error();
     }
 
-    dynamic res = json.decode(const Utf8Decoder().convert(response.bodyBytes));
+    if (response.statusCode == 200) {
+      dynamic res =
+          json.decode(const Utf8Decoder().convert(response.bodyBytes));
+      List<Movie> movies = [];
+      for (dynamic json in res["movies"]) {
+        movies.add(Movie.fromJson(json));
+      }
 
-    List<Movie> movies = [];
-    for (dynamic json in res["movies"]) {
-      movies.add(Movie.fromJson(json));
+      UserVector vectorFromText = UserVector.fromJson(res["tagsFromText"]);
+      String question = res["question"];
+
+      return TextReqResponse(movies, question, vectorFromText);
+    } else {
+      return TextReqResponse.error();
     }
-    UserVector vectorFromText = UserVector.fromJson(res["tagsFromText"]);
-    String question = res["question"];
-
-    return TextReqResponse(movies, question, vectorFromText);
   }
 }
