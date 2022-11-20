@@ -44,6 +44,7 @@ class _ChatListViewState extends State<ChatListView>
         QuestionText("Hey, welcome!"),
         QuestionText(widget
             .firstQuestions[random.nextInt(widget.firstQuestions.length - 1)]),
+        AnswerField("answerText")
       ]);
       greet = true;
     }
@@ -75,7 +76,7 @@ class _ChatListViewState extends State<ChatListView>
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(
-                    0, 0, 0, sqrt(inputHeight*0.5)+inputHeight*0.1),
+                    0, 0, 0, sqrt(inputHeight * 0.5) + inputHeight * 0.1),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromARGB(255, 236, 240, 241),
@@ -107,38 +108,39 @@ class _ChatListViewState extends State<ChatListView>
                   ),
                 ),
               ),
-               Container(
-                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 30),
+              Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width / 30),
                 width: MediaQuery.of(context).size.width / 17 * 5,
                 height: inputHeight,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 236, 240, 241),
-                    width: MediaQuery.of(context).size.width / 350,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 50),
-                  color: Colors.transparent),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 40),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 10,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Text(
-                        selectedMovieId == -1
-                            ? "Select for more..."
-                            : "More of this!",
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 236, 240, 241),
-                            fontFamily: "Lato",
-                            decoration: TextDecoration.none,
-                            fontSize: FontSizes.flexibleEESmall(context)),
-                      ),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 236, 240, 241),
+                      width: MediaQuery.of(context).size.width / 350,
                     ),
-                  )),
-            )
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 50),
+                    color: Colors.transparent),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width / 40),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height / 10,
+                      child: MaterialButton(
+                        onPressed: () {},
+                        child: Text(
+                          selectedMovieId == -1
+                              ? "Select for more..."
+                              : "More of this!",
+                          style: TextStyle(
+                              color: const Color.fromARGB(255, 236, 240, 241),
+                              fontFamily: "Lato",
+                              decoration: TextDecoration.none,
+                              fontSize: FontSizes.flexibleEESmall(context)),
+                        ),
+                      ),
+                    )),
+              )
             ],
           ),
         )
@@ -214,8 +216,9 @@ class _AnswerFieldState extends State<AnswerField> {
   @override
   Widget build(BuildContext context) {
     return Align(
-        alignment: Alignment.centerLeft,
-        child: ChatMessage(
+      alignment: Alignment.centerLeft,
+      child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        ChatMessage(
           child: Text(
             widget.answerText,
             style: TextStyle(
@@ -225,6 +228,19 @@ class _AnswerFieldState extends State<AnswerField> {
                 fontSize: FontSizes.extraSmall(context)),
           ),
         ),
+        Visibility(
+            visible: sent,
+            child: Container(
+              margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 100, 0, 0, 0),
+              child: Icon(
+                Icons.done_all,
+                color: const Color.fromARGB(255, 236, 240, 241),
+                size: MediaQuery.of(context).size.width / 60,
+              ),
+            )
+        ),
+      ]),
     );
   }
 }
@@ -245,7 +261,7 @@ class _QuestionTextState extends State<QuestionText> {
     return Align(
       alignment: Alignment.centerRight,
       child: ChatMessage(
-          child: Text(
+        child: Text(
           widget.questionText,
           style: TextStyle(
               color: const Color.fromARGB(255, 236, 240, 241),
@@ -376,12 +392,11 @@ class _MovieSelectorState extends State<MovieSelector> {
       loaded = true;
     }
 
-    return
-        Align(
-          alignment: Alignment.centerRight,
-          child: Column(
-            children: widgetList,
-          ),
-        );
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Column(
+        children: widgetList,
+      ),
+    );
   }
 }
