@@ -47,12 +47,12 @@ class _ChatListViewState extends State<ChatListView>
       greet = true;
     }
 
-    double inputHeight = MediaQuery.of(context).size.height / 17;
+    double inputHeight = FontSizes.flexibleEESmall(context) * 2.7;
 
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, inputHeight),
+          margin: EdgeInsets.only(bottom: inputHeight),
           child: ListView(
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
@@ -60,7 +60,7 @@ class _ChatListViewState extends State<ChatListView>
                 MediaQuery.of(context).size.width / 17,
                 MediaQuery.of(context).size.height / 10,
                 MediaQuery.of(context).size.width / 17,
-                0),
+                inputHeight),
             children: childList,
           ),
         ),
@@ -73,7 +73,8 @@ class _ChatListViewState extends State<ChatListView>
                 width: MediaQuery.of(context).size.width / 17,
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width / 110),
+                padding: EdgeInsets.fromLTRB(
+                    0, 0, 0, MediaQuery.of(context).size.width / 90),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromARGB(255, 236, 240, 241),
@@ -84,8 +85,7 @@ class _ChatListViewState extends State<ChatListView>
                     )),
                 width: MediaQuery.of(context).size.width / 17 * 10,
                 height: inputHeight,
-                child: Center(
-                    child: Material(
+                child: Material(
                   color: Colors.transparent,
                   child: TextField(
                     style: TextStyle(
@@ -100,11 +100,11 @@ class _ChatListViewState extends State<ChatListView>
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
-                            fontSize: FontSizes.extraExtraSmall(context)),
+                            fontSize: FontSizes.flexibleEESmall(context)),
                         filled: true,
                         fillColor: Colors.transparent),
                   ),
-                )),
+                ),
               )
             ],
           ),
