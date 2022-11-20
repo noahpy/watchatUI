@@ -41,7 +41,7 @@ class _ChatListViewState extends State<ChatListView>
   Random random = Random();
   int selectedMovieId = -1;
   final TextEditingController txtController = TextEditingController();
-  String hintText = "...";
+  String hintText = "Insert text here to start getting recommendations...";
   late String firstQuestion;
 
   @override
@@ -105,11 +105,16 @@ class _ChatListViewState extends State<ChatListView>
                         return;
                       }
                       txtController.clear();
-                      hintText = "...";
+                      hintText = "Insert text here to start getting recommendations...";
                       addChat([
                         AnswerField(value),
                         QuestionText(widget.firstQuestions[firstQuestion]!)
                       ]);
+                      if(widget.firstQuestions.isNotEmpty) {
+                        setState(() {
+                          widget.firstQuestions.remove(firstQuestion);
+                        });
+                      }
                       getTextResponse(value);
                     },
                     controller: txtController,
@@ -198,6 +203,14 @@ class _ChatListViewState extends State<ChatListView>
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
           setSelectedMovieId)
+    ]);
+    if(widget.firstQuestions.isEmpty) {
+      return;
+    }
+    firstQuestion = widget.firstQuestions.keys
+        .toList()[random.nextInt(widget.firstQuestions.length - 1)];
+    addChat([
+      QuestionText(firstQuestion),
     ]);
   }
 
