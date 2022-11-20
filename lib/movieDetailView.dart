@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:js' as js;
 import 'package:http/http.dart' as http;
+import 'package:watchat_ui/design/fontSizes.dart';
 
 class MovieDetailView extends StatefulWidget {
   String imgPath;
@@ -23,7 +24,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
     Widget content = MediaQuery.of(context).size.width >
             MediaQuery.of(context).size.height
         ? Container(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,MediaQuery.of(context).size.width / 20, 0, 0),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Row(
@@ -58,7 +59,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                   fontFamily: "Lato",
                                   decoration: TextDecoration.none,
                                   fontSize:
-                                      MediaQuery.of(context).size.width / 20),
+                                      FontSizes.normal(context)),
                             ),
                           ),
                           LimitedBox(
@@ -71,13 +72,13 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                     fontFamily: "Lato",
                                     decoration: TextDecoration.none,
                                     fontSize:
-                                        MediaQuery.of(context).size.width / 40),
+                                        FontSizes.extraExtraSmall(context)),
                               )),
                           Container(
                             margin: EdgeInsets.fromLTRB(0,
-                                MediaQuery.of(context).size.height / 10, 0, 0),
+                                MediaQuery.of(context).size.height / 20, 0, 0),
                             padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height / 40),
+                                MediaQuery.of(context).size.height / 60),
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     color: const Color.fromARGB(
@@ -102,8 +103,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                       fontFamily: "Lato",
                                       decoration: TextDecoration.none,
                                       fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              40),
+                                          FontSizes.extraSmall(context)),
                                 ),
                               ),
                             ),
@@ -144,7 +144,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
-                            fontSize: MediaQuery.of(context).size.width / 20),
+                            fontSize: FontSizes.normal(context))
                       )),
                 )),
                 Center(
@@ -156,15 +156,15 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
-                            fontSize: MediaQuery.of(context).size.width / 40),
+                            fontSize: FontSizes.extraExtraSmall(context)),
                       )),
                 ),
                 Center(
                     child: Container(
                   margin: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height / 10, 0, 0),
+                      0, MediaQuery.of(context).size.height / 20, 0, 0),
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height / 40),
+                      EdgeInsets.all(MediaQuery.of(context).size.height / 60),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: const Color.fromARGB(255, 236, 240, 241),
@@ -184,7 +184,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
-                            fontSize: MediaQuery.of(context).size.width / 40),
+                            fontSize: FontSizes.extraSmall(context)),
                       ),
                     ),
                   ),
