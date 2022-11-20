@@ -70,7 +70,7 @@ class ReqController {
       UserVector vectorFromText = UserVector.fromJson(res["tagsFromText"]);
       String question = res["question"];
       if (question == "Test question" || question == "") {
-        question = "These might suit you!";
+        question = "Watch those or look for more :)";
       }
 
       return TextReqResponse(movies, question, vectorFromText);
