@@ -12,7 +12,7 @@ import 'package:watchat_ui/movieDetailView.dart';
 import 'common/movie.dart';
 
 class ChatListView extends StatefulWidget {
-  UserVector userVector = UserVector([], []);
+  UserVector? userVector;
   List<String> firstQuestions = [
     "What kind of movie would you like to watch?",
     "How are you feeling today?",
@@ -70,11 +70,13 @@ class _ChatListViewState extends State<ChatListView>
   }
 
   void getTextResponse(String t) async {
-    TextReqResponse response = await ReqController.postResponse(text: t);
+    TextReqResponse response = await ReqController.postResponse(text: t, preferences: widget.userVector);
     widget.userVector = response.resVector;
     addChat([
       QuestionText(response.question),
-      MovieSelector(response.movieList, MediaQuery.of(context).size.width / 5 * 2,
+      MovieSelector(
+          response.movieList,
+          MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5)
     ]);
   }
@@ -208,7 +210,7 @@ class MovieSelector extends StatefulWidget {
 class _MovieSelectorState extends State<MovieSelector> {
   int maxImages = 6;
   int imagePerRow = 2;
-  List<bool> selectedList = [];
+  int selected = -1;
   bool loaded = false;
 
   @override
@@ -230,19 +232,16 @@ class _MovieSelectorState extends State<MovieSelector> {
       imagePerRow = 3;
     }
     for (int i = 0; i < min(widget.movieList.length, maxImages); i++) {
-      if (!loaded) {
-        selectedList.add(false);
-      }
       rowList.add(Container(
         margin: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width / 20, 0, 0, 0),
         child: GestureDetector(
-          onTap: () {
+          onDoubleTap: () {
             setState(() {
-              selectedList[i] = !selectedList[i];
+              selected = i;
             });
           },
-          onDoubleTap: () {
+          onTap: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return MovieDetailView(
@@ -258,7 +257,7 @@ class _MovieSelectorState extends State<MovieSelector> {
             decoration: BoxDecoration(
                 border: Border.all(
                     width: MediaQuery.of(context).size.width / 300,
-                    color: selectedList[i]
+                    color: selected == i
                         ? Color.fromARGB(255, 25, 157, 30)
                         : Colors.transparent),
                 borderRadius: BorderRadius.circular(
@@ -325,12 +324,12 @@ class _MovieSelectorState extends State<MovieSelector> {
                     child: MaterialButton(
                       onPressed: () {},
                       child: Text(
-                        "More of these!",
+                        selected == -1? "Select with double click...":"More of this!",
                         style: TextStyle(
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
-                            fontSize: MediaQuery.of(context).size.width / 30),
+                            fontSize: FontSizes.extraExtraSmall(context)),
                       ),
                     ),
                   )),
