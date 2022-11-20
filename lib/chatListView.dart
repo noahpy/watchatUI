@@ -364,8 +364,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                     MediaQuery.of(context).size.width / 70)),
             child: LimitedBox(
               maxHeight: widget.maxHeight,
-              child: Expanded(
-                  child: Hero(
+              child: Hero(
                 tag: "poster$i",
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(
@@ -374,7 +373,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                     "https:${widget.movieList[i].imgPath.split(":")[1]}",
                   ),
                 ),
-              )),
+              ),
             ),
           ),
         ),
