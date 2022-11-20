@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watchat_ui/common/textReqResponse.dart';
 import 'package:watchat_ui/common/userVector.dart';
@@ -27,6 +28,8 @@ class ChatListView extends StatefulWidget {
     //"Who is the best actor in your opinion?",
     //"What series did you like the most?"
   };
+
+  int count = 0;
 
   ChatListView({super.key});
 
@@ -83,7 +86,7 @@ class _ChatListViewState extends State<ChatListView>
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(
-                    0, 0, 0, sqrt(inputHeight * 0.5) + inputHeight * 0.1),
+                    0, 0, 0, sqrt(inputHeight) / 50 + inputHeight * 0.1),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromARGB(255, 236, 240, 241),
@@ -197,8 +200,16 @@ class _ChatListViewState extends State<ChatListView>
           response.movieList,
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
-          setSelectedMovieId)
+          setSelectedMovieId,
+          getCount
+          )
     ]);
+  }
+
+  int getCount() {
+    int tmp = widget.count;
+    widget.count += 1;
+    return tmp;
   }
 
   void getSimilarMovies() async {
@@ -214,7 +225,9 @@ class _ChatListViewState extends State<ChatListView>
           response.movieList,
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
-          setSelectedMovieId)
+          setSelectedMovieId,
+          getCount
+          )
     ]);
   }
 
@@ -310,9 +323,10 @@ class MovieSelector extends StatefulWidget {
   List<Movie> movieList;
 
   void Function(int) sendSelectedMovie;
+  int Function() getCount;
 
-  MovieSelector(
-      this.movieList, this.maxWidth, this.maxHeight, this.sendSelectedMovie,
+  MovieSelector(this.movieList, this.maxWidth, this.maxHeight,
+      this.sendSelectedMovie, this.getCount,
       {super.key});
 
   @override
@@ -344,6 +358,7 @@ class _MovieSelectorState extends State<MovieSelector> {
       imagePerRow = 3;
     }
     for (int i = 0; i < min(widget.movieList.length, maxImages); i++) {
+      int num = widget.getCount();
       rowList.add(Container(
         margin: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width / 20, 0, 0, 0),
@@ -391,7 +406,7 @@ class _MovieSelectorState extends State<MovieSelector> {
             child: LimitedBox(
               maxHeight: widget.maxHeight,
               child: Hero(
-                tag: "poster$i",
+                tag: "poster$num",
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width / 70),

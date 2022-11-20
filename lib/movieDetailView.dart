@@ -22,7 +22,8 @@ class _MovieDetailViewState extends State<MovieDetailView> {
   Widget build(BuildContext context) {
     Widget content = MediaQuery.of(context).size.width >
             MediaQuery.of(context).size.height
-        ? Container(
+        ? SingleChildScrollView(
+          child: Container(
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
                 MediaQuery.of(context).size.width / 20, 0, 0),
             child: Align(
@@ -34,8 +35,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                       width: MediaQuery.of(context).size.width / 3,
                       padding: EdgeInsets.fromLTRB(
                           0, 0, MediaQuery.of(context).size.width / 10, 0),
-                      child: Expanded(
-                          child: Hero(
+                      child: Hero(
                               tag: widget.tag,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
@@ -43,7 +43,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                 child: Image.network(
                                   widget.imgPath,
                                 ),
-                              ))),
+                              )),
                     ),
                     Align(
                       alignment: Alignment.topCenter,
@@ -110,7 +110,8 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                       ),
                     )
                   ],
-                )))
+                ))),
+        )
         : Container(
             padding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
             child: ListView(
@@ -119,8 +120,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                   height: MediaQuery.of(context).size.height / 3,
                   padding: EdgeInsets.fromLTRB(
                       0, 0, 0, MediaQuery.of(context).size.height / 20),
-                  child: Expanded(
-                      child: Hero(
+                  child: Hero(
                           tag: widget.tag,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(
@@ -128,7 +128,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                             child: Image.network(
                               widget.imgPath,
                             ),
-                          ))),
+                          )),
                 ),
                 Center(
                     child: Container(
@@ -197,6 +197,9 @@ class _MovieDetailViewState extends State<MovieDetailView> {
             fit: BoxFit.cover,
           ),
         ),
+        
+       content,
+
         Align(
             alignment: Alignment.topRight,
             child: Material(color: Colors.transparent,
@@ -211,7 +214,6 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                   padding: const EdgeInsets.all(25),
                   iconSize: 80,
                 ))),
-        content,
       ],
     );
   }
