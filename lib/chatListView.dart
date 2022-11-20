@@ -44,7 +44,6 @@ class _ChatListViewState extends State<ChatListView>
         QuestionText("Hey, welcome!"),
         QuestionText(widget
             .firstQuestions[random.nextInt(widget.firstQuestions.length - 1)]),
-        AnswerField("...", getTextResponse),
       ]);
       greet = true;
     }
@@ -200,10 +199,9 @@ class _ChatListViewState extends State<ChatListView>
 }
 
 class AnswerField extends StatefulWidget {
-  String helperText;
-  final void Function(String) f;
+  String answerText;
 
-  AnswerField(this.helperText, this.f, {super.key});
+  AnswerField(this.answerText, {super.key});
 
   @override
   State<AnswerField> createState() => _AnswerFieldState();
@@ -217,55 +215,17 @@ class _AnswerFieldState extends State<AnswerField> {
   Widget build(BuildContext context) {
     return Align(
         alignment: Alignment.centerLeft,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            ChatMessage(
-              child: TextField(
-                readOnly: sent,
-                onSubmitted: (t) {
-                  if (t == "") {
-                    widget.helperText = "can't submit empty string...";
-                    setState(() {});
-                    return;
-                  }
-                  widget.f(t);
-                  setState(() {
-                    sent = true;
-                  });
-                },
-                maxLines: 5,
-                keyboardType: TextInputType.text,
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 236, 240, 241),
-                    fontFamily: "Lato",
-                    decoration: TextDecoration.none,
-                    fontSize: FontSizes.extraExtraSmall(context)),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: widget.helperText,
-                    hintStyle: TextStyle(
-                        color: const Color.fromARGB(255, 236, 240, 241),
-                        fontFamily: "Lato",
-                        decoration: TextDecoration.none,
-                        fontSize: FontSizes.extraExtraSmall(context)),
-                    filled: true,
-                    fillColor: Colors.transparent),
-              ),
-            ),
-            Visibility(
-                visible: sent,
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 100, 0, 0, 0),
-                  child: Icon(
-                    Icons.done_all,
-                    color: const Color.fromARGB(255, 236, 240, 241),
-                    size: MediaQuery.of(context).size.width / 60,
-                  ),
-                )),
-          ],
-        ));
+        child: ChatMessage(
+          child: Text(
+            widget.answerText,
+            style: TextStyle(
+                color: const Color.fromARGB(255, 236, 240, 241),
+                fontFamily: "Lato",
+                decoration: TextDecoration.none,
+                fontSize: FontSizes.extraSmall(context)),
+          ),
+        ),
+    );
   }
 }
 

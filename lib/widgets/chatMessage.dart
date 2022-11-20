@@ -20,7 +20,10 @@ class ChatMessage extends StatelessWidget {
           borderRadius:
               BorderRadius.circular(MediaQuery.of(context).size.width / 40),
           child: Wrap(
-              children: [Material(color: Colors.transparent, child: child)])),
+              children: [
+                Padding(padding: EdgeInsets.all(15),
+                child: child,
+                )])),
     );
   }
 }
