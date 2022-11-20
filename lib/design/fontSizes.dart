@@ -46,4 +46,8 @@ class FontSizes {
   static double flexibleEESmall(BuildContext context) {
     return sqrt(MediaQuery.of(context).size.width / 20) + 10;
   }
+
+  static double flexibleNormal(BuildContext context) {
+    return sqrt(MediaQuery.of(context).size.width / 10) + 20;
+  }
 }
