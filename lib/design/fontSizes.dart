@@ -48,6 +48,6 @@ class FontSizes {
   }
 
   static double flexibleNormal(BuildContext context) {
-    return sqrt(MediaQuery.of(context).size.width / 10) + 20;
+    return sqrt(MediaQuery.of(context).size.width / 15) + 15;
   }
 }
