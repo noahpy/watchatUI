@@ -74,7 +74,8 @@ class _ChatListViewState extends State<ChatListView>
   }
 
   void getTextResponse(String t) async {
-    TextReqResponse response = await ReqController.postResponse(text: t, preferences: widget.userVector);
+    TextReqResponse response = await ReqController.postResponse(
+        text: t, preferences: widget.userVector);
     widget.userVector = response.resVector;
     addChat([
       QuestionText(response.question),
@@ -240,12 +241,25 @@ class _MovieSelectorState extends State<MovieSelector> {
         margin: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width / 20, 0, 0, 0),
         child: GestureDetector(
-          onDoubleTap: () {
-            setState(() {
-              selected = i;
-            });
-          },
           onTap: () {
+            if (selected == i) {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return MovieDetailView(
+                      widget.movieList[i].imgPath,
+                      widget.movieList[i].title,
+                      widget.movieList[i].description,
+                      widget.movieList[i].redirectPath,
+                      "poster$i");
+                },
+              ));
+            } else {
+              setState(() {
+                selected = i;
+              });
+            }
+          },
+          onDoubleTap: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return MovieDetailView(
@@ -262,7 +276,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                 border: Border.all(
                     width: MediaQuery.of(context).size.width / 300,
                     color: selected == i
-                        ? Color.fromARGB(255, 25, 157, 30)
+                        ? const Color.fromARGB(255, 25, 157, 30)
                         : Colors.transparent),
                 borderRadius: BorderRadius.circular(
                     MediaQuery.of(context).size.width / 70)),
