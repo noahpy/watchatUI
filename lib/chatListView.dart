@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -16,7 +14,13 @@ class ChatListView extends StatefulWidget {
   List<String> firstQuestions = [
     "What kind of movie would you like to watch?",
     "How are you feeling today?",
-    "What is your current vibe?"
+    "What is your current vibe?",
+    "What is your favorite color?",
+    "What is your favorite thing to do in your free time?",
+    "What kind of genre do you like?",
+    "Give me your favorite song?",
+    "Who is the best actor in your opinion?",
+    "What series did you like the most?"
   ];
 
   ChatListView({super.key});
@@ -291,12 +295,25 @@ class _MovieSelectorState extends State<MovieSelector> {
         margin: EdgeInsets.fromLTRB(
             MediaQuery.of(context).size.width / 20, 0, 0, 0),
         child: GestureDetector(
-          onDoubleTap: () {
-            setState(() {
-              selected = i;
-            });
-          },
           onTap: () {
+            if (selected == i) {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return MovieDetailView(
+                      widget.movieList[i].imgPath,
+                      widget.movieList[i].title,
+                      widget.movieList[i].description,
+                      widget.movieList[i].redirectPath,
+                      "poster$i");
+                },
+              ));
+            } else {
+              setState(() {
+                selected = i;
+              });
+            }
+          },
+          onDoubleTap: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return MovieDetailView(
@@ -313,7 +330,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                 border: Border.all(
                     width: MediaQuery.of(context).size.width / 300,
                     color: selected == i
-                        ? Color.fromARGB(255, 25, 157, 30)
+                        ? const Color.fromARGB(255, 25, 157, 30)
                         : Colors.transparent),
                 borderRadius: BorderRadius.circular(
                     MediaQuery.of(context).size.width / 70)),
