@@ -36,6 +36,8 @@ class _ChatListViewState extends State<ChatListView>
   bool greet = false;
   Random random = Random();
   int selectedMovieId = -1;
+  final TextEditingController txtController = TextEditingController();
+  String hintText = "...";
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +92,18 @@ class _ChatListViewState extends State<ChatListView>
                   color: Colors.transparent,
                   child: TextField(
                     onSubmitted: (value) {
+                      if (value == "") {
+                        setState(() {
+                          hintText = "Can't submit empty message ...";
+                        });
+                        return;
+                      }
+                      txtController.clear();
+                      hintText = "...";
                       addChat([AnswerField(value)]);
                       getTextResponse(value);
                     },
+                    controller: txtController,
                     style: TextStyle(
                         color: const Color.fromARGB(255, 236, 240, 241),
                         fontFamily: "Lato",
@@ -100,7 +111,7 @@ class _ChatListViewState extends State<ChatListView>
                         fontSize: FontSizes.flexibleEESmall(context)),
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "...",
+                        hintText: hintText,
                         hintStyle: TextStyle(
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
@@ -241,8 +252,7 @@ class _AnswerFieldState extends State<AnswerField> {
                 color: const Color.fromARGB(255, 236, 240, 241),
                 size: MediaQuery.of(context).size.width / 60,
               ),
-            )
-        ),
+            )),
       ]),
     );
   }
