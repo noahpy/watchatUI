@@ -75,10 +75,8 @@ class _ChatListViewState extends State<ChatListView>
     addChat([
       QuestionText(response.question),
       AnswerField("...", getTextResponse),
-      MovieSelector(
-          response.movieList,
-          MediaQuery.of(context).size.width / 3 * 2,
-          MediaQuery.of(context).size.height / 2)
+      MovieSelector(response.movieList, MediaQuery.of(context).size.width / 3,
+          MediaQuery.of(context).size.height / 4)
     ]);
   }
 }
@@ -94,51 +92,79 @@ class AnswerField extends StatefulWidget {
 }
 
 class _AnswerFieldState extends State<AnswerField> {
+  final fieldText = TextEditingController();
+  bool sent = false;
+
   @override
   Widget build(BuildContext context) {
     return Align(
         alignment: Alignment.centerLeft,
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 236, 240, 241),
-                width: MediaQuery.of(context).size.width / 350,
-              ),
-              borderRadius:
-                  BorderRadius.circular(MediaQuery.of(context).size.width / 70),
-              color: Colors.transparent),
-          child: ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(MediaQuery.of(context).size.width / 40),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 2.3,
-                height: MediaQuery.of(context).size.height / 3,
-                child: Material(
-                  color: Colors.transparent,
-                  child: TextField(
-                    onSubmitted: (t) {
-                      widget.f(t);
-                    },
-                    maxLines: 5,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 236, 240, 241),
-                        fontFamily: "Lato",
-                        decoration: TextDecoration.none,
-                        fontSize: FontSizes.extraExtraSmall(context)),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: widget.helperText,
-                        hintStyle: TextStyle(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 236, 240, 241),
+                    width: MediaQuery.of(context).size.width / 350,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width / 70),
+                  color: Colors.transparent),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width / 40),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: TextField(
+                        readOnly: sent,
+                        onSubmitted: (t) {
+                          if (t == "") {
+                            widget.helperText = "can't submit empty string...";
+                            setState(() {});
+                            return;
+                          }
+                          widget.f(t);
+                          setState(() {
+                            sent = true;
+                          });
+                        },
+                        maxLines: 5,
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
                             decoration: TextDecoration.none,
                             fontSize: FontSizes.extraExtraSmall(context)),
-                        filled: true,
-                        fillColor: Colors.transparent),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: widget.helperText,
+                            hintStyle: TextStyle(
+                                color: const Color.fromARGB(255, 236, 240, 241),
+                                fontFamily: "Lato",
+                                decoration: TextDecoration.none,
+                                fontSize: FontSizes.extraExtraSmall(context)),
+                            filled: true,
+                            fillColor: Colors.transparent),
+                      ),
+                    ),
+                  )),
+            ),
+            Visibility(
+                visible: sent,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width / 100, 0, 0, 0),
+                  child: Icon(
+                    Icons.done_all,
+                    color: const Color.fromARGB(255, 236, 240, 241),
+                    size: MediaQuery.of(context).size.width / 60,
                   ),
-                ),
-              )),
+                )),
+          ],
         ));
   }
 }
@@ -164,7 +190,7 @@ class _QuestionTextState extends State<QuestionText> {
             color: const Color.fromARGB(255, 236, 240, 241),
             fontFamily: "Lato",
             decoration: TextDecoration.none,
-            fontSize: MediaQuery.of(context).size.width / 30),
+            fontSize: FontSizes.extraSmall(context)),
       ),
     );
   }
@@ -247,7 +273,7 @@ class _MovieSelectorState extends State<MovieSelector> {
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width / 70),
                   child: Image.network(
-                    widget.movieList[i].imgPath!,
+                    "https:${widget.movieList[i].imgPath.split(":")[1]}",
                   ),
                 ),
               )),

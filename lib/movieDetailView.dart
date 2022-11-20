@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:js' as js;
+import 'package:http/http.dart' as http;
 
 class MovieDetailView extends StatefulWidget {
   String imgPath;
@@ -47,24 +48,31 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                       alignment: Alignment.topCenter,
                       child: Column(
                         children: [
-                          Text(
-                            widget.title,
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 236, 240, 241),
-                                fontFamily: "Lato",
-                                decoration: TextDecoration.none,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 20),
+                          LimitedBox(
+                            maxWidth: MediaQuery.of(context).size.width / 2,
+                            child: Text(
+                              widget.title,
+                              style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 236, 240, 241),
+                                  fontFamily: "Lato",
+                                  decoration: TextDecoration.none,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 20),
+                            ),
                           ),
-                          Text(
-                            widget.description,
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 236, 240, 241),
-                                fontFamily: "Lato",
-                                decoration: TextDecoration.none,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 40),
-                          ),
+                          LimitedBox(
+                              maxWidth: MediaQuery.of(context).size.width / 2,
+                              child: Text(
+                                widget.description,
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 236, 240, 241),
+                                    fontFamily: "Lato",
+                                    decoration: TextDecoration.none,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width / 40),
+                              )),
                           Container(
                             margin: EdgeInsets.fromLTRB(0,
                                 MediaQuery.of(context).size.height / 10, 0, 0),
@@ -128,24 +136,28 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                     child: Container(
                   padding: EdgeInsets.fromLTRB(
                       0, 0, 0, MediaQuery.of(context).size.height / 30),
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 236, 240, 241),
-                        fontFamily: "Lato",
-                        decoration: TextDecoration.none,
-                        fontSize: MediaQuery.of(context).size.width / 20),
-                  ),
+                  child: LimitedBox(
+                      maxWidth: MediaQuery.of(context).size.width / 4 * 3,
+                      child: Text(
+                        widget.title,
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 236, 240, 241),
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: MediaQuery.of(context).size.width / 20),
+                      )),
                 )),
                 Center(
-                  child: Text(
-                    widget.description,
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 236, 240, 241),
-                        fontFamily: "Lato",
-                        decoration: TextDecoration.none,
-                        fontSize: MediaQuery.of(context).size.width / 40),
-                  ),
+                  child: LimitedBox(
+                      maxWidth: MediaQuery.of(context).size.width / 4 * 3,
+                      child: Text(
+                        widget.description,
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 236, 240, 241),
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: MediaQuery.of(context).size.width / 40),
+                      )),
                 ),
                 Center(
                     child: Container(
