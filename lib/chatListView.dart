@@ -75,7 +75,7 @@ class _ChatListViewState extends State<ChatListView>
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(
-                    0, 0, 0, MediaQuery.of(context).size.width / 90),
+                    0, 0, 0, sqrt(inputHeight*0.5)+inputHeight*0.1),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromARGB(255, 236, 240, 241),
@@ -93,7 +93,7 @@ class _ChatListViewState extends State<ChatListView>
                         color: const Color.fromARGB(255, 236, 240, 241),
                         fontFamily: "Lato",
                         decoration: TextDecoration.none,
-                        fontSize: FontSizes.extraExtraSmall(context)),
+                        fontSize: FontSizes.flexibleEESmall(context)),
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "...",
@@ -106,7 +106,39 @@ class _ChatListViewState extends State<ChatListView>
                         fillColor: Colors.transparent),
                   ),
                 ),
-              )
+              ),
+               Container(
+                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 30),
+                width: MediaQuery.of(context).size.width / 17 * 5,
+                height: inputHeight,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 236, 240, 241),
+                    width: MediaQuery.of(context).size.width / 350,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width / 50),
+                  color: Colors.transparent),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width / 40),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 10,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      child: Text(
+                        selectedMovieId == -1
+                            ? "Select for more..."
+                            : "More of this!",
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 236, 240, 241),
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: FontSizes.flexibleEESmall(context)),
+                      ),
+                    ),
+                  )),
+            )
             ],
           ),
         )
@@ -399,46 +431,12 @@ class _MovieSelectorState extends State<MovieSelector> {
       loaded = true;
     }
 
-    return Column(
-      children: [
+    return
         Align(
           alignment: Alignment.centerRight,
           child: Column(
             children: widgetList,
           ),
-        ),
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 236, 240, 241),
-                    width: MediaQuery.of(context).size.width / 350,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 70),
-                  color: Colors.transparent),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 40),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 10,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Text(
-                        selected == -1
-                            ? "Select with double click..."
-                            : "More of this!",
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 236, 240, 241),
-                            fontFamily: "Lato",
-                            decoration: TextDecoration.none,
-                            fontSize: FontSizes.extraExtraSmall(context)),
-                      ),
-                    ),
-                  )),
-            ))
-      ],
-    );
+        );
   }
 }
