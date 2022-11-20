@@ -221,18 +221,6 @@ class _AnswerFieldState extends State<AnswerField> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-<<<<<<< HEAD
-      child: ChatMessage(
-        child: Text(
-          widget.answerText,
-          style: TextStyle(
-              color: const Color.fromARGB(255, 236, 240, 241),
-              fontFamily: "Lato",
-              decoration: TextDecoration.none,
-              fontSize: FontSizes.extraSmall(context)),
-        ),
-      ),
-=======
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
         ChatMessage(
           child: Text(
@@ -257,7 +245,6 @@ class _AnswerFieldState extends State<AnswerField> {
             )
         ),
       ]),
->>>>>>> 78eaaacb5dfa4476480f7d737919d9b5f57dd634
     );
   }
 }
