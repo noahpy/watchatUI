@@ -229,7 +229,7 @@ class _AnswerFieldState extends State<AnswerField> {
                 color: const Color.fromARGB(255, 236, 240, 241),
                 fontFamily: "Lato",
                 decoration: TextDecoration.none,
-                fontSize: FontSizes.extraSmall(context)),
+                fontSize: FontSizes.flexibleNormal(context)),
           ),
         ),
         Visibility(
