@@ -67,6 +67,7 @@ class _ChatListViewState extends State<ChatListView>
         Container(
           margin: EdgeInsets.only(bottom: inputHeight),
           child: ListView(
+            reverse: true,
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.fromLTRB(
@@ -195,7 +196,7 @@ class _ChatListViewState extends State<ChatListView>
   void addChat(List<Widget> widgets) {
     List<Widget> tmp = List.of(childList);
     for (Widget widget in widgets) {
-      tmp.add(Container(
+      tmp.insert(0, Container(
         padding: EdgeInsets.fromLTRB(
             0, 0, 0, MediaQuery.of(context).size.height / 20),
         child: widget,
@@ -209,9 +210,13 @@ class _ChatListViewState extends State<ChatListView>
   void getTextResponse(String t) async {
     TextReqResponse response = await ReqController.postResponse(
         text: t, preferences: widget.userVector);
+    await Future.delayed(const Duration(milliseconds: 1000));
     widget.userVector = response.resVector;
     addChat([
-      QuestionText(response.question),
+      QuestionText(response.question)
+    ]);
+    await Future.delayed(const Duration(milliseconds: 1500));
+    addChat([
       MovieSelector(
           response.movieList,
           MediaQuery.of(context).size.width / 5 * 2,
@@ -222,6 +227,7 @@ class _ChatListViewState extends State<ChatListView>
     if (widget.firstQuestions.isEmpty) {
       return;
     }
+    await Future.delayed(const Duration(milliseconds: 1000));
     firstQuestion = widget.firstQuestions.keys
         .toList()[random.nextInt(widget.firstQuestions.length - 1)];
     addChat([
