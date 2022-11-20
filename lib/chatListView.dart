@@ -130,7 +130,9 @@ class _ChatListViewState extends State<ChatListView>
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height / 10,
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          getSimilarMovies();
+                        },
                         child: Text(
                           selectedMovieId == -1
                               ? "Select for more..."
