@@ -47,6 +47,8 @@ class _ChatListViewState extends State<ChatListView>
   String hintText = "Insert text here to start getting recommendations...";
   late String firstQuestion;
   bool blocked = false;
+  ScrollController scrollController = ScrollController();
+  bool jumpDown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,18 @@ class _ChatListViewState extends State<ChatListView>
       greet = true;
     }
 
+    if (scrollController.hasClients &&
+        scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent) {
+      jumpDown = false;
+    }
+
+    if (scrollController.hasClients && jumpDown) {
+      jumpDown = false;
+      scrollController.animateTo(scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 700), curve: Curves.easeOut);
+    }
+
     double inputHeight = FontSizes.flexibleEESmall(context) * 2.7;
 
     return Stack(
@@ -68,6 +82,7 @@ class _ChatListViewState extends State<ChatListView>
           margin: EdgeInsets.only(bottom: inputHeight),
           child: ListView(
             shrinkWrap: true,
+            controller: scrollController,
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.fromLTRB(
                 MediaQuery.of(context).size.width / 17,
@@ -200,10 +215,10 @@ class _ChatListViewState extends State<ChatListView>
             0, 0, 0, MediaQuery.of(context).size.height / 20),
         child: widget,
       ));
-      setState(() {
-        childList = tmp;
-      });
     }
+    setState(() {
+      childList = tmp;
+    });
   }
 
   void getTextResponse(String t) async {
@@ -227,6 +242,11 @@ class _ChatListViewState extends State<ChatListView>
     addChat([
       QuestionText(firstQuestion),
     ]);
+    Timer(Duration(milliseconds: 250), () {
+      setState(() {
+        jumpDown = true;
+      });
+    });
   }
 
   int getCount() {
@@ -251,6 +271,11 @@ class _ChatListViewState extends State<ChatListView>
           setSelectedMovieId,
           getCount)
     ]);
+    Timer(Duration(milliseconds: 250), () {
+      setState(() {
+        jumpDown = true;
+      });
+    });
   }
 
   void setSelectedMovieId(int movieId) {
