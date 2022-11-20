@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 
 class FontSizes {
@@ -34,10 +36,14 @@ class FontSizes {
   }
 
   static double extraExtraSmall(BuildContext context) {
-    return MediaQuery.of(context).size.width / 47;
+    return MediaQuery.of(context).size.width / 50;
   }
 
   static double extraExtraExtraSmall(BuildContext context) {
     return MediaQuery.of(context).size.width / 60;
+  }
+
+  static double flexibleEESmall(BuildContext context) {
+    return sqrt(MediaQuery.of(context).size.width / 20) + 10;
   }
 }
