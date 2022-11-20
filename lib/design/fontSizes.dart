@@ -34,7 +34,7 @@ class FontSizes {
   }
 
   static double extraExtraSmall(BuildContext context) {
-    return MediaQuery.of(context).size.width / 50;
+    return MediaQuery.of(context).size.width / 47;
   }
 
   static double extraExtraExtraSmall(BuildContext context) {

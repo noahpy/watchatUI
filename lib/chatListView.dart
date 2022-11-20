@@ -43,15 +43,69 @@ class _ChatListViewState extends State<ChatListView>
       greet = true;
     }
 
-    return ListView(
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(
-          MediaQuery.of(context).size.width / 17,
-          MediaQuery.of(context).size.height / 10,
-          MediaQuery.of(context).size.width / 17,
-          0),
-      children: childList,
+    double inputHeight = MediaQuery.of(context).size.height / 17;
+
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.fromLTRB(0, 0, 0, inputHeight),
+          child: ListView(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(
+                MediaQuery.of(context).size.width / 17,
+                MediaQuery.of(context).size.height / 10,
+                MediaQuery.of(context).size.width / 17,
+                0),
+            children: childList,
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width / 17,
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width / 110),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 236, 240, 241),
+                      width: MediaQuery.of(context).size.width / 350,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width / 50,
+                    )),
+                width: MediaQuery.of(context).size.width / 17 * 10,
+                height: inputHeight,
+                child: Center(
+                    child: Material(
+                  color: Colors.transparent,
+                  child: TextField(
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 236, 240, 241),
+                        fontFamily: "Lato",
+                        decoration: TextDecoration.none,
+                        fontSize: FontSizes.extraExtraSmall(context)),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "...",
+                        hintStyle: TextStyle(
+                            color: const Color.fromARGB(255, 236, 240, 241),
+                            fontFamily: "Lato",
+                            decoration: TextDecoration.none,
+                            fontSize: FontSizes.extraExtraSmall(context)),
+                        filled: true,
+                        fillColor: Colors.transparent),
+                  ),
+                )),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -70,7 +124,8 @@ class _ChatListViewState extends State<ChatListView>
   }
 
   void getTextResponse(String t) async {
-    TextReqResponse response = await ReqController.postResponse(text: t, preferences: widget.userVector);
+    TextReqResponse response = await ReqController.postResponse(
+        text: t, preferences: widget.userVector);
     widget.userVector = response.resVector;
     addChat([
       QuestionText(response.question),
@@ -324,7 +379,9 @@ class _MovieSelectorState extends State<MovieSelector> {
                     child: MaterialButton(
                       onPressed: () {},
                       child: Text(
-                        selected == -1? "Select with double click...":"More of this!",
+                        selected == -1
+                            ? "Select with double click..."
+                            : "More of this!",
                         style: TextStyle(
                             color: const Color.fromARGB(255, 236, 240, 241),
                             fontFamily: "Lato",
