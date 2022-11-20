@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import "package:flutter/material.dart";
@@ -20,7 +19,7 @@ class _MainPageState extends State<MainPage> {
         Flexible(
           flex: 1,
           child: Container(
-            color: Colors.black,
+            color: const Color(0xff191a1a),
             child: Align(
               alignment: Alignment.centerLeft,
               child: ClipRRect(
