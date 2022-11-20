@@ -251,7 +251,7 @@ class _QuestionTextState extends State<QuestionText> {
               color: const Color.fromARGB(255, 236, 240, 241),
               fontFamily: "Lato",
               decoration: TextDecoration.none,
-              fontSize: FontSizes.extraSmall(context)),
+              fontSize: FontSizes.flexibleNormal(context)),
         ),
       ),
     );
