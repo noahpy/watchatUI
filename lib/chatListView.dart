@@ -117,9 +117,11 @@ class _ChatListViewState extends State<ChatListView>
                           "Insert text here to start getting recommendations...";
                       addChat([
                         AnswerField(value),
-                        QuestionText(widget.firstQuestions[firstQuestion]!)
                       ]);
-                      if (widget.firstQuestions.isNotEmpty) {
+                      if (widget.firstQuestions.isNotEmpty && widget.firstQuestions.containsKey(firstQuestion)) {
+                        addChat([
+                          QuestionText(widget.firstQuestions[firstQuestion]!)
+                        ]);
                         setState(() {
                           widget.firstQuestions.remove(firstQuestion);
                           blocked = true;
@@ -229,7 +231,7 @@ class _ChatListViewState extends State<ChatListView>
     }
     await Future.delayed(const Duration(milliseconds: 1000));
     firstQuestion = widget.firstQuestions.keys
-        .toList()[random.nextInt(widget.firstQuestions.length - 1)];
+        .toList()[random.nextInt(widget.firstQuestions.length)];
     addChat([
       QuestionText(firstQuestion),
     ]);
@@ -283,9 +285,11 @@ class _AnswerFieldState extends State<AnswerField> {
   Widget build(BuildContext context) {
     if (!sent) {
       Timer(const Duration(microseconds: 500), () {
-        setState(() {
-          sent = true;
-        });
+        if(mounted) {
+          setState(() {
+            sent = true;
+          });
+        }
       });
     }
     return Align(
