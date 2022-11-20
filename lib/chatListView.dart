@@ -44,6 +44,7 @@ class _ChatListViewState extends State<ChatListView>
         QuestionText("Hey, welcome!"),
         QuestionText(widget
             .firstQuestions[random.nextInt(widget.firstQuestions.length - 1)]),
+        AnswerField("answerText")
       ]);
       greet = true;
     }
@@ -220,6 +221,7 @@ class _AnswerFieldState extends State<AnswerField> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
+<<<<<<< HEAD
       child: ChatMessage(
         child: Text(
           widget.answerText,
@@ -230,6 +232,32 @@ class _AnswerFieldState extends State<AnswerField> {
               fontSize: FontSizes.extraSmall(context)),
         ),
       ),
+=======
+      child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        ChatMessage(
+          child: Text(
+            widget.answerText,
+            style: TextStyle(
+                color: const Color.fromARGB(255, 236, 240, 241),
+                fontFamily: "Lato",
+                decoration: TextDecoration.none,
+                fontSize: FontSizes.extraSmall(context)),
+          ),
+        ),
+        Visibility(
+            visible: sent,
+            child: Container(
+              margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 100, 0, 0, 0),
+              child: Icon(
+                Icons.done_all,
+                color: const Color.fromARGB(255, 236, 240, 241),
+                size: MediaQuery.of(context).size.width / 60,
+              ),
+            )
+        ),
+      ]),
+>>>>>>> 78eaaacb5dfa4476480f7d737919d9b5f57dd634
     );
   }
 }
