@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:js' as js;
-import 'package:http/http.dart' as http;
 import 'package:watchat_ui/design/fontSizes.dart';
 
 class MovieDetailView extends StatefulWidget {
@@ -24,7 +23,8 @@ class _MovieDetailViewState extends State<MovieDetailView> {
     Widget content = MediaQuery.of(context).size.width >
             MediaQuery.of(context).size.height
         ? Container(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,MediaQuery.of(context).size.width / 20, 0, 0),
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
+                MediaQuery.of(context).size.width / 20, 0, 0),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Row(
@@ -58,8 +58,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                       const Color.fromARGB(255, 236, 240, 241),
                                   fontFamily: "Lato",
                                   decoration: TextDecoration.none,
-                                  fontSize:
-                                      FontSizes.normal(context)),
+                                  fontSize: FontSizes.normal(context)),
                             ),
                           ),
                           LimitedBox(
@@ -102,8 +101,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                                           255, 236, 240, 241),
                                       fontFamily: "Lato",
                                       decoration: TextDecoration.none,
-                                      fontSize:
-                                          FontSizes.extraSmall(context)),
+                                      fontSize: FontSizes.extraSmall(context)),
                                 ),
                               ),
                             ),
@@ -138,14 +136,12 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                       0, 0, 0, MediaQuery.of(context).size.height / 30),
                   child: LimitedBox(
                       maxWidth: MediaQuery.of(context).size.width / 4 * 3,
-                      child: Text(
-                        widget.title,
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 236, 240, 241),
-                            fontFamily: "Lato",
-                            decoration: TextDecoration.none,
-                            fontSize: FontSizes.normal(context))
-                      )),
+                      child: Text(widget.title,
+                          style: TextStyle(
+                              color: const Color.fromARGB(255, 236, 240, 241),
+                              fontFamily: "Lato",
+                              decoration: TextDecoration.none,
+                              fontSize: FontSizes.normal(context)))),
                 )),
                 Center(
                   child: LimitedBox(
@@ -201,6 +197,20 @@ class _MovieDetailViewState extends State<MovieDetailView> {
             fit: BoxFit.cover,
           ),
         ),
+        Align(
+            alignment: Alignment.topRight,
+            child: Material(color: Colors.transparent,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                  color: Colors.grey.shade800,
+                  highlightColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  padding: const EdgeInsets.all(25),
+                  iconSize: 80,
+                ))),
         content,
       ],
     );
