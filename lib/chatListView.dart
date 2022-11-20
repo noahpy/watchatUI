@@ -46,6 +46,7 @@ class _ChatListViewState extends State<ChatListView>
   final TextEditingController txtController = TextEditingController();
   String hintText = "Insert text here to start getting recommendations...";
   late String firstQuestion;
+  bool blocked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,9 @@ class _ChatListViewState extends State<ChatListView>
                   color: Colors.transparent,
                   child: TextField(
                     onSubmitted: (value) {
+                      if (blocked) {
+                        return;
+                      }
                       if (value == "") {
                         setState(() {
                           hintText = "Can't submit empty message ...";
@@ -108,14 +112,21 @@ class _ChatListViewState extends State<ChatListView>
                         return;
                       }
                       txtController.clear();
-                      hintText = "Insert text here to start getting recommendations...";
+                      hintText =
+                          "Insert text here to start getting recommendations...";
                       addChat([
                         AnswerField(value),
                         QuestionText(widget.firstQuestions[firstQuestion]!)
                       ]);
-                      if(widget.firstQuestions.isNotEmpty) {
+                      if (widget.firstQuestions.isNotEmpty) {
                         setState(() {
                           widget.firstQuestions.remove(firstQuestion);
+                          blocked = true;
+                        });
+                        Timer(const Duration(seconds: 3), () {
+                          setState(() {
+                            blocked = false;
+                          });
                         });
                       }
                       getTextResponse(value);
@@ -206,10 +217,9 @@ class _ChatListViewState extends State<ChatListView>
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
           setSelectedMovieId,
-          getCount
-          )
+          getCount)
     ]);
-    if(widget.firstQuestions.isEmpty) {
+    if (widget.firstQuestions.isEmpty) {
       return;
     }
     firstQuestion = widget.firstQuestions.keys
@@ -239,8 +249,7 @@ class _ChatListViewState extends State<ChatListView>
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
           setSelectedMovieId,
-          getCount
-          )
+          getCount)
     ]);
   }
 
