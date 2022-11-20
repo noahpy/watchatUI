@@ -34,6 +34,7 @@ class _ChatListViewState extends State<ChatListView>
   List<Widget> childList = [];
   bool greet = false;
   Random random = Random();
+  int selectedMovieId = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +137,34 @@ class _ChatListViewState extends State<ChatListView>
       MovieSelector(
           response.movieList,
           MediaQuery.of(context).size.width / 5 * 2,
-          MediaQuery.of(context).size.height / 14 * 5)
+          MediaQuery.of(context).size.height / 14 * 5,
+          setSelectedMovieId
+      )
     ]);
+  }
+
+  void getSimilarMovies() async {
+    if(selectedMovieId == -1) {
+      return;
+    }
+    TextReqResponse response = await ReqController.getSimilarMovies(
+        movieId: selectedMovieId, preferences: widget.userVector);
+    widget.userVector = response.resVector;
+    addChat([
+      QuestionText(response.question),
+      MovieSelector(
+          response.movieList,
+          MediaQuery.of(context).size.width / 5 * 2,
+          MediaQuery.of(context).size.height / 14 * 5,
+          setSelectedMovieId
+      )
+    ]);
+  }
+
+  void setSelectedMovieId(int movieId){
+    setState(() {
+      selectedMovieId = movieId;
+    });
   }
 }
 
@@ -260,7 +287,9 @@ class MovieSelector extends StatefulWidget {
   double maxWidth, maxHeight;
   List<Movie> movieList;
 
-  MovieSelector(this.movieList, this.maxWidth, this.maxHeight, {super.key});
+  void Function(int) sendSelectedMovie;
+
+  MovieSelector(this.movieList, this.maxWidth, this.maxHeight, this.sendSelectedMovie, {super.key});
 
   @override
   State<MovieSelector> createState() => _MovieSelectorState();
@@ -310,6 +339,7 @@ class _MovieSelectorState extends State<MovieSelector> {
             } else {
               setState(() {
                 selected = i;
+                widget.sendSelectedMovie(widget.movieList[i].id);
               });
             }
           },
