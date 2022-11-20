@@ -74,9 +74,8 @@ class _ChatListViewState extends State<ChatListView>
     widget.userVector = response.resVector;
     addChat([
       QuestionText(response.question),
-      AnswerField("...", getTextResponse),
-      MovieSelector(response.movieList, MediaQuery.of(context).size.width / 3,
-          MediaQuery.of(context).size.height / 4)
+      MovieSelector(response.movieList, MediaQuery.of(context).size.width / 5 * 2,
+          MediaQuery.of(context).size.height / 14 * 5)
     ]);
   }
 }
