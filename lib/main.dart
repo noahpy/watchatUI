@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MainPage(),
       scrollBehavior: MyCustomScrollBehavior(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
