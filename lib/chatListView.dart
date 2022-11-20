@@ -44,7 +44,6 @@ class _ChatListViewState extends State<ChatListView>
         QuestionText("Hey, welcome!"),
         QuestionText(widget
             .firstQuestions[random.nextInt(widget.firstQuestions.length - 1)]),
-        AnswerField("answerText")
       ]);
       greet = true;
     }
