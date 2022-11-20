@@ -10,7 +10,7 @@ class ReqController {
 
   static Future<TextReqResponse> postResponse(
       {String text =
-          "a comedic philatrophy of a lonely man in a huge city, battling with cancer"}) async {
+          "a comedic philatrophy of a lonely man in a huge city, battling with cancer", UserVector? preferences}) async {
     late final http.Response response;
     try {
       response = await http.post(Uri.parse('$apiURL/message'),
@@ -18,7 +18,7 @@ class ReqController {
             'Content-Type': 'application/json',
           },
           body:
-              json.encode(<String, dynamic>{"preferences": [], "text": text}));
+              json.encode(<String, dynamic>{"preferences": preferences == null? [] : preferences.toJsonList(), "text": text}));
     } catch (e) {
       print(e);
       return TextReqResponse.error();
