@@ -6,6 +6,7 @@ import 'package:watchat_ui/common/userVector.dart';
 import 'package:watchat_ui/controller/reqController.dart';
 import 'package:watchat_ui/design/fontSizes.dart';
 import 'package:watchat_ui/movieDetailView.dart';
+import 'package:watchat_ui/widgets/chatMessage.dart';
 
 import 'common/movie.dart';
 
@@ -74,7 +75,8 @@ class _ChatListViewState extends State<ChatListView>
                 width: MediaQuery.of(context).size.width / 17,
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width / 110),
+                padding: EdgeInsets.fromLTRB(
+                    0, 0, 0, MediaQuery.of(context).size.width / 110),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromARGB(255, 236, 240, 241),
@@ -138,13 +140,12 @@ class _ChatListViewState extends State<ChatListView>
           response.movieList,
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
-          setSelectedMovieId
-      )
+          setSelectedMovieId)
     ]);
   }
 
   void getSimilarMovies() async {
-    if(selectedMovieId == -1) {
+    if (selectedMovieId == -1) {
       return;
     }
     TextReqResponse response = await ReqController.getSimilarMovies(
@@ -156,12 +157,11 @@ class _ChatListViewState extends State<ChatListView>
           response.movieList,
           MediaQuery.of(context).size.width / 5 * 2,
           MediaQuery.of(context).size.height / 14 * 5,
-          setSelectedMovieId
-      )
+          setSelectedMovieId)
     ]);
   }
 
-  void setSelectedMovieId(int movieId){
+  void setSelectedMovieId(int movieId) {
     setState(() {
       selectedMovieId = movieId;
     });
@@ -189,56 +189,38 @@ class _AnswerFieldState extends State<AnswerField> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  border: Border.all(
+            ChatMessage(
+              child: TextField(
+                readOnly: sent,
+                onSubmitted: (t) {
+                  if (t == "") {
+                    widget.helperText = "can't submit empty string...";
+                    setState(() {});
+                    return;
+                  }
+                  widget.f(t);
+                  setState(() {
+                    sent = true;
+                  });
+                },
+                maxLines: 5,
+                keyboardType: TextInputType.text,
+                style: TextStyle(
                     color: const Color.fromARGB(255, 236, 240, 241),
-                    width: MediaQuery.of(context).size.width / 350,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 70),
-                  color: Colors.transparent),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width / 40),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: MediaQuery.of(context).size.height / 3,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: TextField(
-                        readOnly: sent,
-                        onSubmitted: (t) {
-                          if (t == "") {
-                            widget.helperText = "can't submit empty string...";
-                            setState(() {});
-                            return;
-                          }
-                          widget.f(t);
-                          setState(() {
-                            sent = true;
-                          });
-                        },
-                        maxLines: 5,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 236, 240, 241),
-                            fontFamily: "Lato",
-                            decoration: TextDecoration.none,
-                            fontSize: FontSizes.extraExtraSmall(context)),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: widget.helperText,
-                            hintStyle: TextStyle(
-                                color: const Color.fromARGB(255, 236, 240, 241),
-                                fontFamily: "Lato",
-                                decoration: TextDecoration.none,
-                                fontSize: FontSizes.extraExtraSmall(context)),
-                            filled: true,
-                            fillColor: Colors.transparent),
-                      ),
-                    ),
-                  )),
+                    fontFamily: "Lato",
+                    decoration: TextDecoration.none,
+                    fontSize: FontSizes.extraExtraSmall(context)),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: widget.helperText,
+                    hintStyle: TextStyle(
+                        color: const Color.fromARGB(255, 236, 240, 241),
+                        fontFamily: "Lato",
+                        decoration: TextDecoration.none,
+                        fontSize: FontSizes.extraExtraSmall(context)),
+                    filled: true,
+                    fillColor: Colors.transparent),
+              ),
             ),
             Visibility(
                 visible: sent,
@@ -271,13 +253,15 @@ class _QuestionTextState extends State<QuestionText> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-      child: Text(
-        widget.questionText,
-        style: TextStyle(
-            color: const Color.fromARGB(255, 236, 240, 241),
-            fontFamily: "Lato",
-            decoration: TextDecoration.none,
-            fontSize: FontSizes.extraSmall(context)),
+      child: ChatMessage(
+          child: Text(
+          widget.questionText,
+          style: TextStyle(
+              color: const Color.fromARGB(255, 236, 240, 241),
+              fontFamily: "Lato",
+              decoration: TextDecoration.none,
+              fontSize: FontSizes.extraSmall(context)),
+        ),
       ),
     );
   }
@@ -289,7 +273,9 @@ class MovieSelector extends StatefulWidget {
 
   void Function(int) sendSelectedMovie;
 
-  MovieSelector(this.movieList, this.maxWidth, this.maxHeight, this.sendSelectedMovie, {super.key});
+  MovieSelector(
+      this.movieList, this.maxWidth, this.maxHeight, this.sendSelectedMovie,
+      {super.key});
 
   @override
   State<MovieSelector> createState() => _MovieSelectorState();
