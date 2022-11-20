@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -12,17 +13,20 @@ import 'common/movie.dart';
 
 class ChatListView extends StatefulWidget {
   UserVector? userVector;
-  List<String> firstQuestions = [
-    "What kind of movie would you like to watch?",
-    "How are you feeling today?",
-    "What is your current vibe?",
-    "What is your favorite color?",
-    "What is your favorite thing to do in your free time?",
-    "What kind of genre do you like?",
-    "Give me your favorite song?",
-    "Who is the best actor in your opinion?",
-    "What series did you like the most?"
-  ];
+  Map<String, String> firstQuestions = {
+    "What kind of movie would you like to watch?": "Ok, looking into that!",
+    "How are you feeling today?":
+        "Okay, there are some movies which would match your situation ...",
+    "What is your current vibe?": "Maybe there is a movie for that!",
+    "What is your favorite color?": "Let me translate that into movies ...",
+    "What is your favorite thing to do in your free time?":
+        "Cool, then these movies may be interesting ...",
+    //"What kind of genre do you like?" :,
+    "Give me your favorite song?":
+        "Great One! Let me translate that into a movie ...",
+    //"Who is the best actor in your opinion?",
+    //"What series did you like the most?"
+  };
 
   ChatListView({super.key});
 
@@ -38,14 +42,16 @@ class _ChatListViewState extends State<ChatListView>
   int selectedMovieId = -1;
   final TextEditingController txtController = TextEditingController();
   String hintText = "...";
+  late String firstQuestion;
 
   @override
   Widget build(BuildContext context) {
     if (!greet) {
+      firstQuestion = widget.firstQuestions.keys
+          .toList()[random.nextInt(widget.firstQuestions.length - 1)];
       addChat([
         QuestionText("Hey, welcome!"),
-        QuestionText(widget
-            .firstQuestions[random.nextInt(widget.firstQuestions.length - 1)]),
+        QuestionText(firstQuestion),
       ]);
       greet = true;
     }
@@ -100,7 +106,10 @@ class _ChatListViewState extends State<ChatListView>
                       }
                       txtController.clear();
                       hintText = "...";
-                      addChat([AnswerField(value)]);
+                      addChat([
+                        AnswerField(value),
+                        QuestionText(widget.firstQuestions[firstQuestion]!)
+                      ]);
                       getTextResponse(value);
                     },
                     controller: txtController,
@@ -147,7 +156,7 @@ class _ChatListViewState extends State<ChatListView>
                         child: Text(
                           selectedMovieId == -1
                               ? "Select for more..."
-                              : "More of this!",
+                              : "More like this one!",
                           style: TextStyle(
                               color: const Color.fromARGB(255, 236, 240, 241),
                               fontFamily: "Lato",
@@ -231,6 +240,13 @@ class _AnswerFieldState extends State<AnswerField> {
 
   @override
   Widget build(BuildContext context) {
+    if (!sent) {
+      Timer(const Duration(microseconds: 500), () {
+        setState(() {
+          sent = true;
+        });
+      });
+    }
     return Align(
       alignment: Alignment.centerLeft,
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
