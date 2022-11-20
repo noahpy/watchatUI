@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -16,7 +14,13 @@ class ChatListView extends StatefulWidget {
   List<String> firstQuestions = [
     "What kind of movie would you like to watch?",
     "How are you feeling today?",
-    "What is your current vibe?"
+    "What is your current vibe?",
+    "What is your favorite color?",
+    "What is your favorite thing to do in your free time?",
+    "What kind of genre do you like?",
+    "Give me your favorite song?",
+    "Who is the best actor in your opinion?",
+    "What series did you like the most?"
   ];
 
   ChatListView({super.key});
